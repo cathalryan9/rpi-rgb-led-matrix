@@ -2,12 +2,11 @@
 from samplebase import SampleBase
 import time
 
-
 class GrayscaleBlock(SampleBase):
     def __init__(self, *args, **kwargs):
         super(GrayscaleBlock, self).__init__(*args, **kwargs)
 
-    def run(self):
+    def Run(self):
         sub_blocks = 16
         width = self.matrix.width
         height = self.matrix.height
@@ -34,6 +33,7 @@ class GrayscaleBlock(SampleBase):
 
 # Main function
 if __name__ == "__main__":
-    grayscale_block = GrayscaleBlock()
-    if (not grayscale_block.process()):
-        grayscale_block.print_help()
+    parser = GrayscaleBlock()
+    parser.Run()
+    # if (not parser.process()):
+    #     parser.print_help()

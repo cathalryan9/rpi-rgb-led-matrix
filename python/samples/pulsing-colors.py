@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 from samplebase import SampleBase
 
-
 class PulsingColors(SampleBase):
     def __init__(self, *args, **kwargs):
         super(PulsingColors, self).__init__(*args, **kwargs)
 
-    def run(self):
-        self.offscreen_canvas = self.matrix.CreateFrameCanvas()
+    def Run(self):
+        self.offscreenCanvas = self.matrix.CreateFrameCanvas()
         continuum = 0
 
         while True:
@@ -32,11 +31,11 @@ class PulsingColors(SampleBase):
                 green = 255 - c
                 blue = c
 
-            self.offscreen_canvas.Fill(red, green, blue)
-            self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
+            self.offscreenCanvas.Fill(red, green, blue)
+            self.offscreenCanvas = self.matrix.SwapOnVSync(self.offscreenCanvas)
 
 # Main function
 if __name__ == "__main__":
-    pulsing_colors = PulsingColors()
-    if (not pulsing_colors.process()):
-        pulsing_colors.print_help()
+    parser = PulsingColors()
+    if (not parser.process()):
+        parser.print_help()

@@ -2,12 +2,11 @@
 from samplebase import SampleBase
 import math
 
-
 class RotatingBlockGenerator(SampleBase):
     def __init__(self, *args, **kwargs):
         super(RotatingBlockGenerator, self).__init__(*args, **kwargs)
 
-    def rotate(self, x, y, angle):
+    def Rotate(self, x, y, angle):
         return {
             "new_x": x * math.cos(angle) - y * math.sin(angle),
             "new_y": x * math.sin(angle) + y * math.cos(angle)
@@ -20,7 +19,7 @@ class RotatingBlockGenerator(SampleBase):
             return 255
         return 255 * (val - lo) / (hi - lo)
 
-    def run(self):
+    def Run(self):
         cent_x = self.matrix.width / 2
         cent_y = self.matrix.height / 2
 
@@ -34,7 +33,7 @@ class RotatingBlockGenerator(SampleBase):
 
         deg_to_rad = 2 * 3.14159265 / 360
         rotation = 0
-        offset_canvas = self.matrix.CreateFrameCanvas()
+        offsetCanvas = self.matrix.CreateFrameCanvas()
 
         while True:
             rotation += 1
@@ -42,19 +41,19 @@ class RotatingBlockGenerator(SampleBase):
 
             for x in range(int(min_rotate), int(max_rotate)):
                 for y in range(int(min_rotate), int(max_rotate)):
-                    ret = self.rotate(x - cent_x, y - cent_x, deg_to_rad * rotation)
+                    ret = self.Rotate(x - cent_x, y - cent_x, deg_to_rad * rotation)
                     rot_x = ret["new_x"]
                     rot_y = ret["new_y"]
 
-                    if x >= min_display and x < max_display and y >= min_display and y < max_display:
-                        offset_canvas.SetPixel(rot_x + cent_x, rot_y + cent_y, self.scale_col(x, min_display, max_display), 255 - self.scale_col(y, min_display, max_display), self.scale_col(y, min_display, max_display))
+                    if x >= min_display and x < max_display  and y >= min_display and y < max_display:
+                        offsetCanvas.SetPixel(rot_x + cent_x, rot_y + cent_y, self.scale_col(x, min_display, max_display), 255 - self.scale_col(y, min_display, max_display), self.scale_col(y, min_display, max_display))
                     else:
-                        offset_canvas.SetPixel(rot_x + cent_x, rot_y + cent_y, 0, 0, 0)
+                        offsetCanvas.SetPixel(rot_x + cent_x, rot_y + cent_y, 0, 0, 0)
 
-            offset_canvas = self.matrix.SwapOnVSync(offset_canvas)
+            offsetCanvas = self.matrix.SwapOnVSync(offsetCanvas)
 
 # Main function
 if __name__ == "__main__":
-    rotating_block_generator = RotatingBlockGenerator()
-    if (not rotating_block_generator.process()):
-        rotating_block_generator.print_help()
+    parser = RotatingBlockGenerator()
+    if (not parser.process()):
+        parser.print_help()
