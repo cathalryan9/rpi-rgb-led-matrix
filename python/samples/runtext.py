@@ -11,10 +11,16 @@ class RunText(SampleBase):
 
     def Run(self):
         #Change to take request as a arguement. Request contains text,colour,font.
+
         offscreenCanvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("matrix/fonts/7x13.bdf")
-        textColor = graphics.Color(255, 255, 0)
+
+        red = request.json['colour']['red']
+        green = request.json['colour']['green']
+        blue = request.json['colour']['blue']
+
+        textColor = graphics.Color(red, green, blue)
         pos = offscreenCanvas.width
         myText = request.json['text']
 
@@ -31,7 +37,6 @@ class RunText(SampleBase):
 
 # Main function
 if __name__ == "__main__":
-    print('bah')
     parser = RunText()
     if (not parser.process()):
         parser.print_help()
