@@ -749,6 +749,8 @@ void SimpleAnalogClock::draw()
   Color c(0,0,0xff);
 
   DrawCircle(canvas(), canvas()->width()/2,  canvas()->height()/2,  canvas()->width()/2-1, c);
+
+
 }
 
 
@@ -760,8 +762,10 @@ void SimpleAnalogClock::draw_handles(int h, int m, int s, int r, int g, int b)
     const int height = canvas()->height();
     const int sechandle = canvas()->width()/2 -2;
     const int minhandle = canvas()->width()/2 -2;
-    const int hourhandle = canvas()->width()/2 - 4;
+    const int hourhandle = canvas()->width()/2 - 8;
+    const int tickmark = canvas()->width()/2 -24;
     Color c(r,g,b);
+    Color ticks(255,0,0);
 
     // Pre calculate the hand end coordinates to minimize the time between
     // clearing the old hands and drawing the new ones.
@@ -782,6 +786,16 @@ void SimpleAnalogClock::draw_handles(int h, int m, int s, int r, int g, int b)
     DrawLine(canvas(), width/2-1, height/2-1, secx2, secy2, c);
     DrawLine(canvas(), width/2-1, height/2-1, minx2, miny2, c);
     DrawLine(canvas(), width/2-1, height/2-1, hourx2, houry2, c);
+
+    //Draw ticks
+
+    for(s = 0; s < 60; s = s + 5){
+      radians = s * (M_PI/30);
+      secx2 = ((width/2)+(width/2)*cos(radians))-tickmark*cos(radians);
+      secy2 = ((width/2)+(width/2)*sin(radians))-tickmark*sin(radians);
+      DrawLine(canvas(), (width/2)+(width/2-2)*cos(radians), (width/2)+(width/2-2)*sin(radians), secx2, secy2, ticks);
+    }
+
 }
 
 void SimpleAnalogClock::clock()
