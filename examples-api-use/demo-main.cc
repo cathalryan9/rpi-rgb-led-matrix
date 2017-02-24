@@ -10,6 +10,8 @@
 #include "transformer.h"
 #include "graphics.h"
 #include "simple-analog-clock.h"
+#include "sql_methods.h"
+
 
 
 #include <assert.h>
@@ -20,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string>
 
 #include <algorithm>
 
@@ -1156,6 +1159,13 @@ int main(int argc, char *argv[]) {
   int scroll_ms = 30;
   int rotation = 0;
   bool large_display = false;
+
+  //Change led_panel_state to running
+  printf("Updating State\n");
+  std::string table = "STATE";
+  std::string value = "value = 'running'";
+  std::string where_stmt = "NAME = 'led_panel_state'";
+  sql_update(table, value, where_stmt);
 
   const char *demo_parameter = NULL;
   RGBMatrix::Options matrix_options;
