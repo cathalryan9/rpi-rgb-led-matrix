@@ -1167,6 +1167,8 @@ int main(int argc, char *argv[]) {
   std::string where_stmt = "NAME = 'led_panel_state'";
   sql_update(table, value, where_stmt);
 
+
+
   const char *demo_parameter = NULL;
   RGBMatrix::Options matrix_options;
   rgb_matrix::RuntimeOptions runtime_opt;
@@ -1351,18 +1353,26 @@ int main(int argc, char *argv[]) {
   // Image generating demo is crated. Now start the thread.
   image_gen->Start();
 
+
   // Now, the image generation runs in the background. We can do arbitrary
   // things here in parallel. In this demo, we're essentially just
   // waiting for one of the conditions to exit.
-  if (runtime_seconds > 0) {
-    sleep(runtime_seconds);
-  } else {
-    // The
-    printf("Press <CTRL-C> to exit and reset LEDs\n");
-    while (!interrupt_received) {
-      sleep(1); // Time doesn't really matter. The syscall will be interrupted.
+//  if (runtime_seconds > 0) {
+//    sleep(runtime_seconds);
+//  } else {
+//    // The
+//    printf("Press <CTRL-C> to exit and reset LEDs\n");
+//    while (!interrupt_received) {
+//      sleep(1); // Time doesn't really matter. The syscall will be interrupted.
+//    }
+//  }
+
+  std::string col = "value";
+  std::string state = "running";
+  while(sql_select(table, col, where_stmt)==state){
+    printf("Sleeping for 2 seconds");
+    sleep(2);
     }
-  }
 
   // Stop image generating thread. The delete triggers
   delete image_gen;
@@ -1370,5 +1380,8 @@ int main(int argc, char *argv[]) {
 
   printf("\%s. Exiting.\n",
          interrupt_received ? "Received CTRL-C" : "Timeout reached");
+  //State changed to stopped
+  value = "value = 'stopped'";
+  sql_update(table,value,where_stmt);
   return 0;
 }
