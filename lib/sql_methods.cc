@@ -36,6 +36,7 @@ static int callback(void *unused, int count, char **data, char **columns)
     }
 
     printf("\n");
+    state.value = data;
 
     return 0;
 }
@@ -79,7 +80,7 @@ std::string sql_select(std::string table, std::string value, std::string where_s
 
     }
     //return state.value
-    return "returned";
+    return state.value;
 
 }
 
